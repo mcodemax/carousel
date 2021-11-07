@@ -10,6 +10,7 @@ function Carousel(props) {
   const card = props.cardData[cardIdx];
   const total = props.cardData.length;
   const goForward = () => setCardIdx(cardIdx + 1);
+  const goBack = () => setCardIdx(cardIdx - 1);
 
   return (
     <div className="Carousel">
@@ -17,7 +18,7 @@ function Carousel(props) {
       <div className="Carousel-main">
         <i
           className="fas fa-chevron-circle-left fa-2x"
-          onClick={goForward}
+          onClick={goBack} //error here, should make a new f() called goBack
           data-testid="left-arrow"
         />
         <Card

@@ -50,3 +50,30 @@ it("works when you click on the right arrow", function() {
   expect(queryByAltText("Photo by Richard Pasquarella on Unsplash")).not.toBeInTheDocument();
   expect(queryByAltText("Photo by Pratik Patel on Unsplash")).toBeInTheDocument();
 });
+
+//when you’re on the second image, clicking the left arrow 
+// will move you to the first image
+it('should go to the previous picture, when on 2nd picture', () => {
+  const { queryByTestId, queryByAltText } = render(<Carousel />);
+
+  // expect the first image to show, but not the second
+  expect(queryByAltText("Photo by Richard Pasquarella on Unsplash")).toBeInTheDocument();
+  expect(queryByAltText("Photo by Pratik Patel on Unsplash")).not.toBeInTheDocument();
+
+  // move forward in the carousel
+  const rightArrow = queryByTestId("right-arrow");
+  fireEvent.click(rightArrow);
+
+  // expect the second image to show, but not the first
+  expect(queryByAltText("Photo by Richard Pasquarella on Unsplash")).not.toBeInTheDocument();
+  expect(queryByAltText("Photo by Pratik Patel on Unsplash")).toBeInTheDocument();
+  
+  //set carosel to 2nd card
+  // move forward in the carousel
+  const leftArrow = queryByTestId("left-arrow");
+  fireEvent.click(leftArrow);
+
+  //on 1st pic here
+  expect(queryByAltText(cardData[1].caption)).not.toBeInTheDocument();
+  expect(queryByAltText(cardData[0].caption)).toBeInTheDocument();
+});
