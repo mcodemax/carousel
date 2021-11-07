@@ -54,7 +54,7 @@ it("works when you click on the right arrow", function() {
 //when you’re on the second image, clicking the left arrow 
 // will move you to the first image
 it('should go to the previous picture, when on 2nd picture', () => {
-  const { queryByTestId, queryByAltText } = render(<Carousel />);
+  const { queryByTestId, queryByAltText } = render(<Carousel cardData={cardData}/>);
 
   // expect the first image to show, but not the second
   expect(queryByAltText("Photo by Richard Pasquarella on Unsplash")).toBeInTheDocument();
@@ -76,4 +76,18 @@ it('should go to the previous picture, when on 2nd picture', () => {
   //on 1st pic here
   expect(queryByAltText(cardData[1].caption)).not.toBeInTheDocument();
   expect(queryByAltText(cardData[0].caption)).toBeInTheDocument();
+});
+
+it('should remove left and right arrows at the beginning or end of the slideshow', () => {
+  const { queryByTestId } = render(<Carousel cardData={cardData}/>);
+
+  //test for no left arrow on 1st slide
+  expect(queryByTestId("left-arrow")).toEqual(null);
+
+  //test for no right arrow on last slide
+  const rightArrow = queryByTestId("right-arrow");
+  fireEvent.click(rightArrow);
+  fireEvent.click(rightArrow);
+
+  expect(queryByTestId("right-arrow")).toEqual(null);
 });
